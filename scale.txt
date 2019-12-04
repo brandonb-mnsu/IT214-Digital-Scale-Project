@@ -1,0 +1,31 @@
+#include "HX711.h"
+#define DOUT  3
+#define CLK  2
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(1, 8, 4, 5, 6, 7);
+
+
+
+HX711 scale;
+
+void setup(){
+  lcd.begin(16,2);
+  scale.begin(DOUT, CLK);
+  scale.set_scale(-183);
+  scale.tare();
+}
+
+void loop() {
+  float current_weight = scale.get_units(5);
+  float scale_reading = (current_weight/6.85);
+  lcd.setCursor(0,0);
+  lcd.print("Weight");
+  
+  
+  lcd.setCursor(0,1);
+  lcd.print(":");
+  lcd.print(scale_reading);
+  delay(200);
+
+  lcd.clear();
+}
